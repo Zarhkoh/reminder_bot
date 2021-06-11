@@ -1,0 +1,24 @@
+{
+    "name": "discordjs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon -r ./src/reminder-bot.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "discord.js": "^12.5.3",
+        "dotenv": "^10.0.0",
+        "luxon": "^1.27.0",
+        "mysql2": "^2.2.5",
+        "sequelize": "^6.6.2"
+    },
+    "devDependencies": {
+        "eslint": "^7.28.0"
+    }
+}
