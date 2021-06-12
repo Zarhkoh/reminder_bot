@@ -8,11 +8,11 @@ module.exports = (sequelize, Sequelize) => {
           primaryKey: true,
         },
         dateCreation: {
-          type: Sequelize.DATE,
+          type: Sequelize.STRING,
           allowNull: false
         },
         dateRappel: {
-          type: Sequelize.DATE,
+          type: Sequelize.STRING,
           allowNull: false
         },
         author: {
