@@ -1,5 +1,6 @@
 
 FROM node:16.3.0
+ENV TZ=Europe/Paris
 
 WORKDIR /app
 
