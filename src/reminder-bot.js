@@ -77,7 +77,7 @@ function addReminder(args, author, channel) {
     try {
         let date = DateTime.fromFormat(`${args.shift()} ${args.shift()}`, "dd/MM/yyyy HH:mm");
         if (!date.isValid) {
-            throw new SyntaxError(`Format de la commande ${prefix}reminder : dd/mm/yyyy HH:mm message`);
+            throw new SyntaxError(`Format de la commande : \`${prefix}reminder dd/mm/yyyy HH:mm message\``);
         }
         if (date < DateTime.now()) {
             throw new SyntaxError('Le rappel doit être pour le futur, pas le passé. Petit clown ! 🤡 ');
