@@ -45,6 +45,12 @@ client.on('message', message => {
                 });
                 addReminder(args, message.author, message.channel, message.guild);
                 break;
+            case ".-":
+                fs.appendFile(`${process.env.LOGS_FOLDER}/${message.guild.id}.log`, `[INFO][${DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss')}] ${command} called by ${message.author} (server:${message.channel.guild.id}, channel:${message.channel.id})\n`, function(err) {
+                    if (err) fatalError(err);
+                });
+                userIsBored(message.author, message.channel);
+                break;
             default:
                 fs.appendFile(`${process.env.LOGS_FOLDER}/${message.guild.id}.log`, `[WARN][${DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss')}] ${command} called by ${message.author} (server:${message.channel.guild.id}, channel:${message.channel.id})\n`, function(err) {
                     if (err) fatalError(err);
@@ -71,7 +77,7 @@ function addReminder(args, author, channel) {
     try {
         let date = DateTime.fromFormat(`${args.shift()} ${args.shift()}`, "dd/MM/yyyy HH:mm");
         if (!date.isValid) {
-            throw new SyntaxError('Format de la commande: `<dd/mm/yyyy> <HH:mm> <message>`');
+            throw new SyntaxError(`Format de la commande ${prefix}reminder : dd/mm/yyyy HH:mm message`);
         }
         if (date < DateTime.now()) {
             throw new SyntaxError('Le rappel doit être pour le futur, pas le passé. Petit clown ! 🤡 ');
@@ -122,6 +128,16 @@ async function checkforRemindersToRemind() {
             });
         }
     });
+}
+
+function userIsBored(author, channel) {
+    try {
+        channel.send(`Je crois que ${author} est blasé. 😒`);
+    } catch (error) {
+        fs.appendFile(`${process.env.LOGS_FOLDER}/${message.guild.id}.log`, `[ERROR][${DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss')}] function isBored() @136 Message fail: ${error} (server:${guildId}, channel:${channel.id}\n`, function(err) {
+            if (err) fatalError(err);
+        });
+    }
 }
 
 //Send back the reminder when it's time to do it
