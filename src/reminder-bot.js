@@ -148,7 +148,7 @@ function remindEm(guildId, channelId, authorId, message, originalDate) {
     if (client.guilds.cache.find(guild => guild.id === guildId).available) {
         try {
             let channel = client.channels.cache.find(channel => channel.id === channelId);
-            channel.send(`📌** __RAPPEL:__ ${message}** *(créé le ${new DateTime(originalDate).setLocale('fr').toFormat("dd/MM/yyyy à hh:mm")} par <@${authorId}>)*`);
+            channel.send(`📌** __RAPPEL:__ ${message}** *(créé le ${new DateTime(originalDate).setLocale('fr').toFormat("dd/MM/yyyy à HH:mm")} par <@${authorId}>)*`);
         } catch (error) {
             fs.appendFile(`${process.env.LOGS_FOLDER}/${message.guild.id}.log`, `[ERROR][${DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss')}] function remindEm() @133 Rappel non remis: ${error} (server:${guildId}, channel:${channelId}, rappel: ${message})\n`, function(err) {
                 if (err) fatalError(err);
