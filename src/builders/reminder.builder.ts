@@ -1,7 +1,7 @@
 const db = require('../db_init');
 const Reminder = require('../models').Reminder;
 
-module.exports.setReminder = (reminder) => {
+module.exports.setReminder = function (reminder) {
      return new Promise(async(resolve, reject) => {
          try {
              const result = await Reminder.create(reminder);
@@ -12,7 +12,7 @@ module.exports.setReminder = (reminder) => {
      });
 }
 
-module.exports.getReminderByDateTime = (dateTime) => {
+module.exports.getReminderByDateTime = function (dateTime) {
     return new Promise(async (resolve, reject) => {
         try {
             const result = await Reminder.findAll({
