@@ -1,9 +1,31 @@
+const { MessageEmbed } = require("discord.js");
+
 module.exports.repeatUserMessage = (message, channel) => {
     channel.send(`\`${message}\`>🦜`);
 }
 
 module.exports.sendMessage = async(channel, message) => {
     channel.send(message);
+}
+
+module.exports.sendBasicEmbed = (title, message, channel) => {
+    const embed = new MessageEmbed();
+    embed.setColor("#249cec");
+    embed.setTitle(title);
+    embed.setDescription(message);
+    channel.send(embed);
+}
+
+module.exports.sendEmbed = (embed, channel) => {
+    channel.send(embed);
+}
+
+module.exports.sendDM = (message, target) => {
+    target.send(message);
+}
+
+module.exports.sendEmbedWithHeader = (header, embed, channel) => {
+    channel.send(header, embed);
 }
 
 module.exports.userIsBored = (author, channel) => {

@@ -26,3 +26,35 @@ module.exports.getReminderByDateTime = (dateTime) => {
         }
     });
 }
+
+module.exports.getRemindersByUserAndServer = (userId, serverId) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const result = await Reminder.findAll({
+                where: {
+                    authorId: userId,
+                    serverId: serverId
+                }
+            });
+            resolve(result);
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
+module.exports.deleteReminderByUserAndId = (userId, reminderId) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const result = await Reminder.destroy({
+                where: {
+                    reminderId: reminderId,
+                    authorId: userId
+                }
+            });
+            resolve(result);
+        } catch (err) {
+            reject(err);
+        }
+    });
+}

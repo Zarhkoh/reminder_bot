@@ -15,9 +15,13 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.STRING,
           allowNull: false
         },
-        author: {
+        authorId: {
             type: Sequelize.STRING(250),
             allowNull: false
+        },
+        authorUsername: {
+          type: Sequelize.STRING(255),
+          allowNull: false
         },
         serverId: {
           type: Sequelize.STRING(250),
@@ -30,6 +34,10 @@ module.exports = (sequelize, Sequelize) => {
         message: {
             type: Sequelize.STRING(250),
             allowNull: false
+        },
+        targetId: {
+          type: Sequelize.STRING(250),
+          allowNull: false
         }
       },
       {

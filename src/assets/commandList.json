@@ -1,0 +1,26 @@
+[{
+        "commandSuffix": "repeat",
+        "commandDescription": "Le bot répètera votre phrase, tel un bon perroquet.",
+        "commandSyntax": "repeat Votre texte",
+        "commandOwner": "Everyone"
+    },
+    {
+        "commandSuffix": "remindme",
+        "commandDescription": "Ajoute un rappel à votre liste de rappels. Je vous le rappelerai au moment voulu.",
+        "commandSyntax": "remindme dd/mm/yyyy HH:mm motif du rappel",
+        "commandOwner": "Everyone"
+    },
+    {
+        "commandSuffix": "reminders",
+        "commandDescription": "Commande pour connaître la liste de vos rappels sur ce serveur.",
+        "commandSyntax": "reminders",
+        "commandOwner": "Everyone"
+    },
+    {
+        "commandSuffix": "deletereminder",
+        "commandDescription": "Supprime le rappel demandé.",
+        "commandSyntax": "deletereminder id du rappel",
+        "commandOwner": "Everyone"
+    }
+
+]
