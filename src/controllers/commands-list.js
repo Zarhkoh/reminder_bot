@@ -13,28 +13,28 @@ module.exports.commandList = async(message) => {
         logs.guildInfo(message.guild.id, `${command} called by ${message.author} (server:${message.guild.id}, channel:${message.channel.id}, args: ${args})`);
         switch (command) {
             case "reminders":
-                reminder.sendRemindersList(message.author, message.guild);
+                await reminder.sendRemindersList(message.author, message.guild);
                 break;
             case "commands":
-                commands.displayCommandList(message.channel);
+                await commands.displayCommandList(message.channel);
                 break;
             case "help":
-                help.commandList(message.channel);
+                await help.commandList(message.channel);
                 break;
             case "repeat":
-                botInteractions.repeatUserMessage(args.join(" "), message.channel);
+                await botInteractions.repeatUserMessage(args.join(" "), message.channel);
                 break;
             case "remindme":
-                reminder.addReminder(args, message.author, message.channel, message.guild);
+                await reminder.addReminder(args, message.author, message.channel, message.guild);
                 break;
             case "deletereminder":
                 await reminder.deleteReminder(message.author, message.channel, args);
                 break;
             case ".-":
-                botInteractions.userIsBored(message.author, message.channel);
+                await botInteractions.userIsBored(message.author, message.channel);
                 break;
             default:
-                botInteractions.sendErrorMsg(message.channel, `\`${prefix}${command}\` n'est pas une commande valide.`);
+                await botInteractions.sendErrorMsg(message.channel, `\`${prefix}${command}\` n'est pas une commande valide. \`${prefix}help\` pour avoir de l'aide.`);
         }
     } catch (error) {
         if (error instanceof SyntaxError) {

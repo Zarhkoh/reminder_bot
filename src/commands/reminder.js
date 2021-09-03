@@ -7,7 +7,7 @@ const app = require('../reminder-bot');
 const { MessageEmbed } = require('discord.js');
 
 // Fonction qui enregistre un rappel en bdd
-module.exports.addReminder = (args, author, channel) => {
+module.exports.addReminder = async(args, author, channel) => {
     let date = DateTime.fromFormat(`${args.shift()} ${args.shift()}`, "dd/MM/yyyy HH:mm");
     if (!date.isValid) {
         throw new SyntaxError(`Format de la commande : \`${prefix}remindme dd/mm/yyyy HH:mm message\``);
@@ -28,12 +28,12 @@ module.exports.addReminder = (args, author, channel) => {
         channelId: channel.id,
         message: args.join(" ")
     };
-    reminderBuilder.setReminder(reminder).then(() => {
-        botInteractions.sendMessage(channel, `Rappel enregistré, ${author}! Il est programmé pour le **${date.setLocale('fr').toFormat("cccc dd MMMM yyyy à HH:mm")}**. *Je n'oublierai pas.*`);
+    await reminderBuilder.setReminder(reminder).then(async() => {
+        await botInteractions.sendMessage(channel, `Rappel enregistré, ${author}! Il est programmé pour le **${date.setLocale('fr').toFormat("cccc dd MMMM yyyy à HH:mm")}**. *Je n'oublierai pas.*`);
     });
 }
 
-module.exports.remindEm = (reminder) => {
+module.exports.remindEm = async(reminder) => {
     logs.guildInfo(reminder.serverId, `Reminder ${reminder.reminderId} retrieved (server:${reminder.serverId}, channel:${reminder.channelId},author: ${reminder.authorId})`);
     if (app.client.guilds.cache.find(guild => guild.id === reminder.serverId).available) {
         let channel = app.client.channels.cache.find(channel => channel.id === reminder.channelId);
@@ -47,7 +47,8 @@ module.exports.remindEm = (reminder) => {
         //add a message to tag the target
         header = `Hey <@${reminder.targetId}>`
             // Send embed
-        botInteractions.sendEmbedWithHeader(header, embed, channel);
+        await botInteractions.sendEmbedWithHeader(header, embed, channel);
+        await reminderBuilder.deleteReminderByUserAndId(reminder.authorId, reminder.reminderId);
     } else {
         throw new Error(`function remindEm() Bot absent sur le serveur?: server:${guildId}, channel:${channelId}, autor:${author},  message: ${message}`);
     }
@@ -65,7 +66,7 @@ module.exports.checkforRemindersToRemind = async() => {
 }
 
 module.exports.sendRemindersList = async(author, guild) => {
-    await reminderBuilder.getRemindersByUserAndServer(author.id, guild.id).then(reminders => {
+    await reminderBuilder.getRemindersByUserAndServer(author.id, guild.id).then(async(reminders) => {
         if (reminders.length > 0) {
             const embed = new MessageEmbed();
             embed.setColor("#f2c311");
@@ -81,9 +82,10 @@ module.exports.sendRemindersList = async(author, guild) => {
                     `;
                 embed.setDescription(liste);
             });
-            botInteractions.sendDM(author, embed);
+            await botInteractions.sendDM(author, embed);
+
         } else {
-            botInteractions.sendDM(author, `Tu n'as pas de rappels programmés sur le serveur ${guild.name}.`);
+            await botInteractions.sendDM(author, `Tu n'as pas de rappels programmés sur le serveur ${guild.name}.`);
         }
     });
 }
@@ -94,7 +96,7 @@ module.exports.deleteReminder = async(author, channel, reminderId) => {
     } else {
         await reminderBuilder.deleteReminderByUserAndId(author.id, reminderId).then(isdelete => {
             if (isdelete == 1) {
-                botInteractions.sendMessage(channel, `Rappel n°${reminderId} supprimé !`);
+                botInteractions.sendMessage(channel, `Le rappel n°${reminderId} de ${author} est supprimé !`);
             } else {
                 throw new SyntaxError(`Désolé ${author}, on dirait que le rappel n'existe pas ou que tu n'en es pas le propriétaire.`);
             }

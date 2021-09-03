@@ -20,8 +20,8 @@ module.exports.sendEmbed = (embed, channel) => {
     channel.send(embed);
 }
 
-module.exports.sendDM = (target, message) => {
-    target.send(message);
+module.exports.sendDM = async(user, message) => {
+    await user.send(message);
 }
 
 module.exports.sendEmbedWithHeader = (header, embed, channel) => {
