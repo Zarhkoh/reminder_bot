@@ -81,9 +81,9 @@ module.exports.sendRemindersList = async(author, guild) => {
                     `;
                 embed.setDescription(liste);
             });
-            botInteractions.sendDM(embed, author);
+            botInteractions.sendDM(author, embed);
         } else {
-            botInteractions.sendDM(`Tu n'as pas de rappels programmés sur le serveur ${guild.name}.`);
+            botInteractions.sendDM(author, `Tu n'as pas de rappels programmés sur le serveur ${guild.name}.`);
         }
     });
 }

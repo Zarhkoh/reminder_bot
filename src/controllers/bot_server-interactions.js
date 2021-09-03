@@ -20,7 +20,7 @@ module.exports.sendEmbed = (embed, channel) => {
     channel.send(embed);
 }
 
-module.exports.sendDM = (message, target) => {
+module.exports.sendDM = (target, message) => {
     target.send(message);
 }
 
