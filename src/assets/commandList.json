@@ -5,6 +5,12 @@
         "commandOwner": "Everyone"
     },
     {
+        "commandSuffix": "spy",
+        "commandDescription": "Fournit des informations sur une invitation Discord.",
+        "commandSyntax": "spy Invitation_discord",
+        "commandOwner": "Everyone"
+    },
+    {
         "commandSuffix": "remindme",
         "commandDescription": "Ajoute un rappel à votre liste de rappels. Je vous le rappelerai au moment voulu.",
         "commandSyntax": "remindme dd/mm/yyyy HH:mm motif du rappel",

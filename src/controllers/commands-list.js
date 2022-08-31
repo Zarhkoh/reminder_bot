@@ -6,12 +6,15 @@ const logs = require('./logs');
 const prefix = process.env.COMMAND_PREFIX;
 
 module.exports.commandList = async(message) => {
-    message.delete({ timeout: 200 });
     let args = message.content.slice(prefix.length).trim().split(/ +/);
     let command = args.shift().toLowerCase();
+    setTimeout(() => message.delete(), 200);
     try {
-        logs.guildInfo(message.guild.id, `${command} called by ${message.author} (server:${message.guild.id}, channel:${message.channel.id}, args: ${args})`);
+        logs.guildInfo(message.guild.id, `${command} called by ${message.author.tag}(ID:${message.author.id}) (server:${message.guild.id}, channel:${message.channel.id}, args: ${args})`);
         switch (command) {
+            case "spy":
+                await botInteractions.sendServerInformations(args, message.channel);
+                break;
             case "reminders":
                 await reminder.sendRemindersList(message.author, message.guild);
                 break;
@@ -40,6 +43,10 @@ module.exports.commandList = async(message) => {
         if (error instanceof SyntaxError) {
             botInteractions.sendErrorMsg(message.channel, error.message);
         }
-        logs.guildWarn(message.guild.id, `${command} called by ${message.author}: ${error.message} (server:${message.guild.id}, channel:${message.channel.id})`);
+        if (error instanceof EvalError || error instanceof ReferenceError) {
+            logs.error(`${command} called by ${message.author.tag}(ID:${message.author.id}): ${error.message} (server:${message.guild.id}, channel:${message.channel.id})`);
+        } else {
+            logs.guildWarn(message.guild.id, `${command} called by ${message.author.tag}(ID:${message.author.id}): ${error.message} (server:${message.guild.id}, channel:${message.channel.id})`);
+        }
     }
 }
