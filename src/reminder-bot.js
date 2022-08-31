@@ -1,6 +1,14 @@
 require('dotenv').config();
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const { Client, GatewayIntentBits } = require('discord.js');
+
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+    ]
+});
+
 const prefix = process.env.COMMAND_PREFIX;
 const db = require('./db_init');
 const cron = require("node-cron");
@@ -21,11 +29,11 @@ cron.schedule("0 * * * * *", function() {
     try {
         botReminder.checkforRemindersToRemind();
     } catch (error) {
-        console.log("ok");
+        logs.error(error.message);
     }
 });
 
-client.on('message', message => {
+client.on('messageCreate', message => {
     if (message.content.startsWith(prefix) && message.content.charAt(1) != " " && !message.author.bot) {
         commandList.commandList(message);
     }
