@@ -6,6 +6,8 @@ const logs = require('./logs');
 const prefix = process.env.COMMAND_PREFIX;
 
 module.exports.commandList = async(message) => {
+    // Detecte si le message vient de l'API
+    if (message.webhookId);
     let args = message.content.slice(prefix.length).trim().split(/ +/);
     let command = args.shift().toLowerCase();
     setTimeout(() => message.delete(), 200);
@@ -32,6 +34,9 @@ module.exports.commandList = async(message) => {
                 break;
             case "deletereminder":
                 await reminder.deleteReminder(message.author, message.channel, args);
+                break;
+            case "mondc":
+                await botInteractions.sendDataCenterInformations(message.author, message.channel, args);
                 break;
             case ".-":
                 await botInteractions.userIsBored(message.author, message.channel);

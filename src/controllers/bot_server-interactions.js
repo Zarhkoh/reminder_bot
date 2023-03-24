@@ -1,5 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const spyService = require('../services/spy');
+const whoisService = require('../services/whois');
+const prefix = process.env.COMMAND_PREFIX;
 const logs = require('./logs');
 
 
@@ -100,5 +102,30 @@ module.exports.sendServerInformations = async(args, channel) => {
             this.sendErrorMsg(channel, `Une erreur inattendue est survenue. Merci de réessayer.`);
             throw new Error(`Param:${inviteID}, ${error.message}`);
         }
+    }
+}
+
+module.exports.sendDataCenterInformations = async(author, channel, args) => {
+    ip = args.shift();
+    if (!ip) {
+        throw new SyntaxError(`Format de la commande : \`${prefix}mondc [Adresse IP du Shadow]\``);
+    }
+    let datacenters = {
+        "DFR1": "Gravelines",
+        "FRDUN2": "Dunkerque",
+        "FRSBG01": "Strasbourg",
+        "DEFRA01": "Francfort",
+        "TX1": "Dallas",
+        "CAMTL01": "Montréal",
+        "USWDC01": "Washginton DC",
+        "USPOR01": "Portland"
+    }
+    ipInfos = await whoisService.getDataCenterByIp(ip);
+    if (ipInfos.descr && ipInfos.descr.includes("Shadow")) {
+        console.log(ipInfos.descr);
+        console.log(datacenters[ipInfos.descr.split(' ')[2]]);
+        channel.send(`${author}, le Datacenter de ton Shadow est à **${datacenters[ipInfos.descr.split(' ')[2]]}**.`);
+    } else {
+        this.sendErrorMsg(channel, `${author}, la commande doit se faire avec l'adresse IP de ton Shadow. Tu peux la récupérer en ouvrant ce lien dans ton Shadow : https://myv4.shadow.tech/`);
     }
 }

@@ -11,6 +11,12 @@
         "commandOwner": "Everyone"
     },
     {
+        "commandSuffix": "mondc",
+        "commandDescription": "Affiche le datacenter de l'adresse ip de votre Shadow.",
+        "commandSyntax": "mondc 1.1.1.1",
+        "commandOwner": "Everyone"
+    },
+    {
         "commandSuffix": "remindme",
         "commandDescription": "Ajoute un rappel à votre liste de rappels. Je vous le rappelerai au moment voulu.",
         "commandSyntax": "remindme dd/mm/yyyy HH:mm motif du rappel",
