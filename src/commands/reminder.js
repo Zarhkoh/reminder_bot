@@ -4,7 +4,7 @@ const prefix = process.env.COMMAND_PREFIX;
 const { DateTime } = require("luxon");
 const logs = require('../controllers/logs');
 const app = require('../reminder-bot');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 // Fonction qui enregistre un rappel en bdd
 module.exports.addReminder = async(args, author, channel) => {
@@ -38,9 +38,9 @@ module.exports.remindEm = async(reminder) => {
     if (app.client.guilds.cache.find(guild => guild.id === reminder.serverId).available) {
         let channel = app.client.channels.cache.find(channel => channel.id === reminder.channelId);
         // Build Embed to send
-        const embed = new MessageEmbed();
+        const embed = new EmbedBuilder();
         embed.setColor("#f2c311");
-        embed.setAuthor("RAPPEL", "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/pushpin_1f4cc.png");
+        embed.setAuthor({ name: "RAPPEL", iconURL: "https://em-content.zobj.net/thumbs/120/twitter/322/pushpin_1f4cc.png" });
         embed.setTitle(`${reminder.message}`);
         footer = `créé le ${DateTime.fromFormat(reminder.dateCreation, "dd/LL/yyyy HH:mm:ss").toFormat("dd/MM/yyyy à HH:mm")} par ${reminder.authorUsername} (${reminder.authorId})`;
         embed.setFooter(footer);
@@ -68,9 +68,9 @@ module.exports.checkforRemindersToRemind = async() => {
 module.exports.sendRemindersList = async(author, guild) => {
     await reminderBuilder.getRemindersByUserAndServer(author.id, guild.id).then(async(reminders) => {
         if (reminders.length > 0) {
-            const embed = new MessageEmbed();
+            const embed = new EmbedBuilder();
             embed.setColor("#f2c311");
-            embed.setAuthor(`Liste de tes rappels sur ${guild.name}**`, `https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/282/pushpin_1f4cc.png`);
+            embed.setAuthor(`Liste de tes rappels sur ${guild.name}**`, `https://em-content.zobj.net/thumbs/120/twitter/322/pushpin_1f4cc.png`);
             //add a message to tag the target
             let liste = "";
             reminders.forEach(reminder => {

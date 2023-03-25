@@ -14,11 +14,11 @@ module.exports.sendMessage = async(channel, message) => {
 }
 
 module.exports.sendBasicEmbed = (title, message, channel) => {
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setColor("#249cec");
     embed.setTitle(title);
     embed.setDescription(message);
-    channel.send(embed);
+    channel.send({ embeds: [embed] });
 }
 
 module.exports.sendEmbed = (embed, channel) => {
@@ -30,7 +30,7 @@ module.exports.sendDM = async(user, message) => {
 }
 
 module.exports.sendEmbedWithHeader = (header, embed, channel) => {
-    channel.send(header, embed);
+    channel.send({ content: header, embeds: [embed] });
 }
 
 module.exports.userIsBored = (author, channel) => {
